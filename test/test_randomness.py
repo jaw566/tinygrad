@@ -3,18 +3,11 @@ from functools import partial
 
 import numpy as np
 import torch
-<<<<<<< HEAD
 from tinygrad import nn, dtypes, Tensor, Device, TinyJit
 from tinygrad.helpers import getenv, CI
 from tinygrad.device import is_dtype_supported
 from tinygrad.engine.realize import lower_schedule, CompiledRunner
 from hypothesis import given, settings, strategies as strat
-=======
-from tinygrad.tensor import Tensor
-import tinygrad.nn as nn
-import pytest
-from tinygrad.helpers import dtypes
->>>>>>> 01c0453ee (uniform integers bug fix)
 
 settings.register_profile("my_profile", max_examples=200, deadline=None, derandomize=getenv("DERANDOMIZE_CI", False))
 settings.load_profile("my_profile")
@@ -275,14 +268,9 @@ class TestRandomness(unittest.TestCase):
 
   def test_uniform(self):
     self.assertFalse(normal_test(Tensor.uniform))
-<<<<<<< HEAD
     self.assertTrue(equal_distribution(Tensor.uniform, lambda x: torch.nn.init.uniform_(torch.empty(x)), lambda x: np.random.uniform(size=x)))
     self.assertTrue(equal_distribution(partial(Tensor.uniform, low=-100, high=100, dtype=dtypes.int32),
                                        numpy_func=lambda x: np.random.randint(low=-100, high=100, size=x)))
-=======
-    self.assertTrue(equal_distribution(Tensor.uniform, lambda x: torch.nn.init.uniform_(torch.empty(x), a=-1, b=1), lambda x: np.random.uniform(low=-1, high=1, size=x)))
-    self.assertTrue(equal_distrib_ints(Tensor.uniform, lambda x: np.random.randint(low=-100, high=100, size=x)))
->>>>>>> 01c0453ee (uniform integers bug fix)
 
   def test_scaled_uniform(self):
     self.assertFalse(normal_test(Tensor.scaled_uniform))
